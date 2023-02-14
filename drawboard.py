@@ -1,5 +1,10 @@
 import pygame
 
+PATH = 0
+WALL = 1
+INVINCIBLE = 2
+ZAWARUDO = 3
+
 class CollideTile(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color):
         super().__init__()
@@ -24,8 +29,6 @@ class PowerUpTile(pygame.sprite.Sprite):
 
     def kill(self, collide_tiles):
         collide_tiles.remove(self)
-        collide_tiles.add(NonCollideTiles(self.rect.x, self.rect.y, 64, 64, 'white'))
-
 
 
 class NonCollideTiles(pygame.sprite.Sprite):
@@ -37,7 +40,7 @@ class NonCollideTiles(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.id = "PATH"
-
+        
 
 def draw_board(level):
     # each block should have a width of 30 pixels and a height of 30 pixels
@@ -45,22 +48,24 @@ def draw_board(level):
     # create new sprite group
     collide_tiles = pygame.sprite.Group()
     noncollide_tiles = pygame.sprite.Group()
-    powerup_tiles = pygame.sprite.Group()
     TILE_SIZE = 64
     # loop through level array
     for row in range(len(level)):
         for col in range(len(level[row])):
-            if level[row][col] == 1:
+            if level[row][col] == WALL:
                 collide_tiles.add(CollideTile(
                     col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'black'))
-            elif level[row][col] == 0:
-                collide_tiles.add(NonCollideTiles(
-                    col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'white'))
-            elif level[row][col] == 2:
+                continue
+            elif level[row][col] == PATH:
                 collide_tiles.add(PowerUpTile(
-                    col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'green', 'attack'))
-            elif level[row][col] == 3:
+                    col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE/4, TILE_SIZE/4, 'green', 'pellet'))
+            elif level[row][col] == INVINCIBLE:
                 collide_tiles.add(PowerUpTile(
                     col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'blue', 'invincibilidade'))
+            elif level[row][col] == ZAWARUDO:
+                collide_tiles.add(PowerUpTile(
+                    col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'red', 'invincibilidade'))
+            noncollide_tiles.add(NonCollideTiles(
+                    col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'white'))
 
-    return collide_tiles, noncollide_tiles, powerup_tiles
+    return collide_tiles, noncollide_tiles
