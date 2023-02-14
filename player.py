@@ -24,9 +24,6 @@ class Player(pygame.sprite.Sprite):
         self.player_left = pygame.image.load('din/blue.png').convert_alpha()
         self.player_right = pygame.image.load('din/blur.png').convert_alpha()
 
-        self.coX = int(self.rect.x / 64)
-        self.coY = int(self.rect.y / 64)
-
     def is_alive(self):
         return self.hp > 0
 
@@ -66,9 +63,10 @@ class Player(pygame.sprite.Sprite):
 
         if not self.check_collision(self.nextX, self.nextY):
             self.isMoving = True
-            self.speedX, self.speedY = (self.nextX - self.rect.x) / 8, (self.nextY - self.rect.y) / 8
-            self.coX = int(self.rect.x / 64)
-            self.coY = int(self.rect.y / 64)
+            self.speedX, self.speedY = (self.nextX - self.rect.x) // 4, (self.nextY - self.rect.y) // 4
+        else:
+            self.nextX = self.rect.x
+            self.nextY = self.rect.y
 
     def check_collision(self, x, y):
         for i in self.collide_tiles:
