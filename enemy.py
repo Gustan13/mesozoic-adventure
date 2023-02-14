@@ -22,7 +22,6 @@ class Enemy(pygame.sprite.Sprite):
 
         #   BINDER
         self.isMoving = False
-        self.canPathfind = True
         self.pellets = []
         self.speedX = 0
         self.speedY = 0
@@ -72,9 +71,6 @@ class Enemy(pygame.sprite.Sprite):
             self.is_attacking = not self.is_attacking
 
     def findPath(self, x, y, dX, dY, level):
-        if not self.canPathfind:
-            return
-
         if level[x][y] == 1:
             return False
         for i in self.pellets:
@@ -84,16 +80,13 @@ class Enemy(pygame.sprite.Sprite):
         self.pellets.append([x * 64, y * 64])
 
         if x == dX and y == dY:
-            self.canPathfind = False
-            self.dX = dX * 64
-            self.dY = dY * 64
             return True
         
+        if self.findPath(x, y + 1, dX, dY, level):
+            return True
         if self.findPath(x + 1, y, dX, dY, level):
             return True
         if self.findPath(x - 1, y, dX, dY, level):
-            return True
-        if self.findPath(x, y + 1, dX, dY, level):
             return True
         if self.findPath(x, y - 1, dX, dY, level):
             return True
@@ -111,12 +104,12 @@ class Enemy(pygame.sprite.Sprite):
             return
 
         try:
-            self.canPathfind = True
             self.speedX = (self.pellets[0][1] - self.rect.x) / 4
             self.speedY = (self.pellets[0][0] - self.rect.y) / 4
             self.isMoving = True
         except:
-            print(self.dX, self.dY)
+            print(player.nextY // 64, player.nextX // 64)
+            self.findPath(self.rect.y // 64, self.rect.x // 64, player.nextY // 64, player.nextX // 64, level)
 
     def kill(self):
         super().kill()
@@ -132,10 +125,10 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.take_damage(self.damage)
 
-        self.findPath(int(self.rect.x / 64), int(self.rect.y / 64), player.coX, player.coY, level)
+        # for i in self.pellets:
+        #     screen = pygame.display.get_surface()
+        #     pygame.draw.rect(screen, (0,255,0), pygame.Rect(i[1] + 16, i[0] + 16, 16, 16))
+
         self.move(level, player)
         self.switch_attack_mode()
-        for i in self.pellets:
-            screen = pygame.display.get_surface()
-            pygame.draw.rect(screen, (0,255,0), pygame.Rect(i[1] + 16, i[0] + 16, 16, 16))
         self.draw()
