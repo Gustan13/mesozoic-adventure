@@ -21,7 +21,9 @@ player_group.add(player)
 
 enemy_group = pygame.sprite.Group()
 enemy_1 = Enemy('eoraptor', 320, 320, 64, 64, 10, 0.5)
-enemy_group.add(enemy_1)
+enemy_2 = Enemy('ptedoaustro', 192, 896, 64, 64, 10, 0.5)
+enemy_3 = Enemy('yi qi', 896, 256, 64, 64, 10, 0.5)
+enemy_group.add(enemy_1, enemy_2, enemy_3)
 
 
 def main():
