@@ -1,4 +1,5 @@
 import pygame
+from settings import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, collide_tiles):
@@ -10,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('din/blue.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
-        self.rect = self.image.get_rect(topleft=(x, y))
+        self.rect = self.image.get_rect(topleft=(x * TILE_SIZE, y * TILE_SIZE))
         self.collide_tiles = collide_tiles
 
         self.hp = 100
@@ -20,6 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.isMoving = False
         self.nextX, self.nextY = self.rect.x, self.rect.y
         self.speedX, self.speedY = 0, 0
+
+        self.points = 0
 
         self.player_left = pygame.image.load('din/blue.png').convert_alpha()
         self.player_right = pygame.image.load('din/blur.png').convert_alpha()
@@ -45,25 +48,25 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_d]:
             self.player_direction = 0
-            self.nextX, self.nextY = self.rect.x + 64, self.rect.y
+            self.nextX, self.nextY = self.rect.x + TILE_SIZE, self.rect.y
 
         elif keys[pygame.K_a]:
             self.player_direction = 1
-            self.nextX, self.nextY = self.rect.x - 64, self.rect.y
+            self.nextX, self.nextY = self.rect.x - TILE_SIZE, self.rect.y
 
         elif keys[pygame.K_w]:
             self.player_direction = 2
-            self.nextX, self.nextY = self.rect.x, self.rect.y - 64
+            self.nextX, self.nextY = self.rect.x, self.rect.y - TILE_SIZE
 
         elif keys[pygame.K_s]:
             self.player_direction = 3
-            self.nextX, self.nextY = self.rect.x, self.rect.y + 64
+            self.nextX, self.nextY = self.rect.x, self.rect.y + TILE_SIZE
         else:
             return
 
         if not self.check_collision(self.nextX, self.nextY):
             self.isMoving = True
-            self.speedX, self.speedY = (self.nextX - self.rect.x) // 4, (self.nextY - self.rect.y) // 4
+            self.speedX, self.speedY = (self.nextX - self.rect.x) // 8, (self.nextY - self.rect.y) // 8
         else:
             self.nextX = self.rect.x
             self.nextY = self.rect.y

@@ -1,5 +1,5 @@
 import pygame
-from settings import arrayMap, WIDTH, HEIGHT, FPS
+from settings import *
 from drawboard import draw_board
 from player import Player
 from mainmenu import cutscene
@@ -16,13 +16,13 @@ pygame.display.set_caption('Blue\'s Adventure in the Mesozoic Era')
 # sprite groups
 collide_tiles, noncollide_tiles = draw_board(arrayMap)
 player_group = pygame.sprite.GroupSingle()
-player = Player(64, 64, 64, 64, collide_tiles)
+player = Player(1, 1, TILE_SIZE, TILE_SIZE, collide_tiles)
 player_group.add(player)
 
 enemy_group = pygame.sprite.Group()
-enemy_1 = Enemy('eoraptor', 320, 320, 64, 64, 10, 0.5)
-enemy_2 = Enemy('ptedoaustro', 192, 896, 64, 64, 10, 0.5)
-enemy_3 = Enemy('yi qi', 896, 256, 64, 64, 10, 0.5)
+enemy_1 = Enemy('eoraptor', 5, 5, TILE_SIZE, TILE_SIZE, 10, 0.5)
+enemy_2 = Enemy('ptedoaustro', 3, 14, TILE_SIZE, TILE_SIZE, 10, 0.5)
+enemy_3 = Enemy('yi qi', 12, 4, TILE_SIZE, TILE_SIZE, 10, 0.5)
 enemy_group.add(enemy_1, enemy_2, enemy_3)
 
 

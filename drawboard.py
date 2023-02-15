@@ -1,4 +1,5 @@
 import pygame
+from settings import *
 
 PATH = 0
 WALL = 1
@@ -48,7 +49,6 @@ def draw_board(level):
     # create new sprite group
     collide_tiles = pygame.sprite.Group()
     noncollide_tiles = pygame.sprite.Group()
-    TILE_SIZE = 64
     # loop through level array
     for row in range(len(level)):
         for col in range(len(level[row])):
@@ -58,7 +58,7 @@ def draw_board(level):
                 continue
             elif level[row][col] == PATH:
                 collide_tiles.add(PowerUpTile(
-                    col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE/4, TILE_SIZE/4, 'green', 'pellet'))
+                    col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'green', 'pellet'))
             elif level[row][col] == INVINCIBLE:
                 collide_tiles.add(PowerUpTile(
                     col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'blue', 'invincibilidade'))

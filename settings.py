@@ -1,9 +1,9 @@
 # 0 - rgb(255,255,255)
 # 1 - rgb(0,0,0)
 
-WIDTH, HEIGHT = 1024, 1024
+TILE_SIZE = 48
+WIDTH, HEIGHT = TILE_SIZE * 16, TILE_SIZE * 16
 FPS = 30
-TILE_SIZE = 64
 
 arrayMap = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
